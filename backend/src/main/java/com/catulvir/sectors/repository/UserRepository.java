@@ -35,7 +35,8 @@ public class UserRepository {
         Number userId = new SimpleJdbcInsert(template)
                 .withTableName("users")
                 .usingColumns(columns)
-                .execute(parameters);
+                .usingGeneratedKeyColumns("id")
+                .executeAndReturnKey(parameters);
 
         user.setId(userId.longValue());
 
@@ -44,7 +45,7 @@ public class UserRepository {
                 user.getSectors(),
                 50,
                 (PreparedStatement ps, Sector sector) -> {
-                    ps.setLong(1, user.getId());
+                    ps.setLong(1, userId.longValue());
                     ps.setLong(2, sector.getId());
                 });
 
