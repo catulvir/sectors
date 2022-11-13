@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch SectorsApplication",
+            "request": "launch",
+            "mainClass": "com.catulvir.sectors.config.SectorsApplication",
+            "projectName": "sectors"
+        },
+        {
+            "type": "java",
+            "name": "Launch Java Program",
+            "request": "launch",
+            "mainClass": ""
+        }
+    ]
+}

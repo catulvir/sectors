@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-sm navbar-light">
+
+    <div class="container-fluid">
+
+        <div class="navbar-brand">
+            <h2>Sectors for Helmes</h2>
+        </div>
+
+        <div class="justify-content-end">
+            <div *ngIf="!isAddMode && user?.name">
+                <h2>Hello, {{user?.name}}!</h2>
+            </div>
+            <div *ngIf="isAddMode">
+                <h2>Hello, new user!</h2>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+<br>
+
+<div class="container-sm">
+
+    <div *ngIf="loading" class="alert alert-warning text-center">
+        <div class="spinner-border text-warning" role="status"></div>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{errorMessage}}
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success">
+        {{successMessage}}
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+            <label class="form-label" for="name">Name:</label>
+            <input id="name" class="form-control" aria-label="User name" type="text" formControlName="name"
+                placeholder="Bob Brown">
+            <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
+                <div *ngIf="name?.errors?.['required']">Please provide your name.</div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="selectSectors">Sectors:</label>
+            <select multiple class="form-select" formControlName="sectors" id="selectSectors" id="selectSectors"
+                aria-label="Select sector" size="10">
+                <option [value]="sector" [ngStyle]="{ 'margin-left': sector!.level!*50 + 'px'  }"
+                    *ngFor="let sector of allSectors">
+                    {{ sector.name }}
+                </option>
+            </select>
+            <div *ngIf="sectors?.invalid && (sectors?.dirty || sectors?.touched)" class="alert alert-danger">
+                <div *ngIf="sectors?.errors?.['required']">Please choose at least one sector!</div>
+            </div>
+        </div>
+
+        <div class="form-check form-switch mb-3">
+            <label class="form-check-label" for="agreeToTerms">Agree to terms</label>
+            <input class="form-check-input" aria-label="Agree to terms" formControlName="agreeToTerms" type="checkbox"
+                id="agreeToTerms">
+            <div *ngIf="agreeToTerms?.invalid && (agreeToTerms?.dirty || agreeToTerms?.touched)" class="alert alert-danger">
+                <div *ngIf="agreeToTerms?.errors?.['required']">Please agree to terms!</div>
+            </div>
+        </div>
+
+        <button *ngIf="!isAddMode" type="submit" class="btn btn-success"
+            [disabled]="disableMode || form.invalid">Edit</button>
+        <button *ngIf="isAddMode" type="submit" class="btn btn-success"
+            [disabled]="disableMode || form.invalid">Add</button>
+    </form>
+
+</div>
